@@ -1,5 +1,9 @@
+#region
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+
+#endregion
 
 namespace Common.Data;
 

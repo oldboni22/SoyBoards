@@ -1,4 +1,8 @@
+#region
+
 using Common.Data;
+
+#endregion
 
 namespace SoyBoards.UserService.Domain.Entities;
 

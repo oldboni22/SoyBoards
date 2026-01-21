@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Common.Data;
+﻿namespace Common.Data;
 
 public class EntityBase
 {
