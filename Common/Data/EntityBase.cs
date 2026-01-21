@@ -5,8 +5,6 @@ namespace Common.Data;
 
 public class EntityBase
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid Id { get; set; }
     
     public DateTime CreatedAt { get; set; } =  DateTime.UtcNow;
