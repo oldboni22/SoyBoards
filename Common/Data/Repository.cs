@@ -39,7 +39,7 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : EntityB
     public Task<T?> GetByIdAsync(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
     {
         return trackChanges
-            ? Context.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id,cancellationToken)
+            ? Context.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken)
             : Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
