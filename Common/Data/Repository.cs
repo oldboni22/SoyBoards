@@ -1,10 +1,6 @@
-#region
-
 using System.Linq.Expressions;
 using Common.Pagination;
 using Microsoft.EntityFrameworkCore;
-
-#endregion
 
 namespace Common.Data;
 

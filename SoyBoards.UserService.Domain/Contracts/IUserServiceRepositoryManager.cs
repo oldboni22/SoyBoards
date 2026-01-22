@@ -1,9 +1,5 @@
-#region
-
 using Common.Data;
 using SoyBoards.UserService.Domain.Entities;
-
-#endregion
 
 namespace SoyBoards.UserService.Domain.Contracts;
 
