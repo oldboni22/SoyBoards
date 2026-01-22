@@ -32,26 +32,26 @@ public class AzureBlobService(BlobServiceClient blobServiceClient, IOptions<Azur
         return client.UploadAsync(fileStream, uploadOptions);
     }
 
-    public async Task<string> GetFileLinkAsync(string fileName)
+    public async Task<string?> GetFileLinkAsync(string fileName)
     {
         var client = _blobContainerClient.GetBlobClient(fileName);
         
         if (!await client.ExistsAsync())
         {
-            throw new FileNotFoundException();
+            return null;
         }  
         
         var sasUri = client.GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddMinutes(5));
         return sasUri.AbsoluteUri;
     }
 
-    public async Task<FileOutput> GetFileAsync(string fileName)
+    public async Task<FileOutput?> GetFileAsync(string fileName)
     {
         var client = _blobContainerClient.GetBlobClient(fileName);
 
         if (!await client.ExistsAsync())
         {
-            throw new FileNotFoundException();
+            return null;
         }    
         
         var downloadResponse = await client.DownloadStreamingAsync();
