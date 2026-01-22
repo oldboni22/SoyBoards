@@ -49,6 +49,9 @@ namespace SoyBoards.UserService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Tag")
+                        .IsUnique();
+
                     b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
