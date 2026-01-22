@@ -1,4 +1,8 @@
+using System;
+using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Common.Pagination;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +10,8 @@ namespace Common.Data;
 
 public interface IRepository<T> where T : EntityBase
 {
+    Task<T> AddAsync(T entity, CancellationToken cancellationToken = default);
+    
     Task<T?> GetByIdAsync(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default);
 
     Task<PagedList<T>> GetByConditionAsync(
@@ -21,6 +27,13 @@ public interface IRepository<T> where T : EntityBase
 
 public class Repository<T>(DbContext context) : IRepository<T> where T : EntityBase
 {
+    public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
+    {
+        var createdEntity = await context.Set<T>().AddAsync(entity, cancellationToken);
+
+        return createdEntity.Entity;
+    }
+
     public Task<T?> GetByIdAsync(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
     {
         return trackChanges
