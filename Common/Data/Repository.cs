@@ -25,11 +25,11 @@ public interface IRepository<T> where T : EntityBase
 
 public class Repository<T>(DbContext context) : IRepository<T> where T : EntityBase
 {
-    public async Task<T?> GetByIdAsync(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
+    public Task<T?> GetByIdAsync(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
     {
         return trackChanges
-            ? await context.Set<T>().FirstOrDefaultAsync(cancellationToken)
-            : await context.Set<T>().AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+            ? context.Set<T>().FirstOrDefaultAsync(cancellationToken)
+            : context.Set<T>().AsNoTracking().FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<PagedList<T>> GetByConditionAsync(
