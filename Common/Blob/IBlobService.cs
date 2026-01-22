@@ -11,5 +11,7 @@ public interface IBlobService
     
     Task<FileOutput?> GetFileAsync(string fileName);
     
-    Task DeleteFileAsync(string fileName);     
+    Task DeleteFileAsync(string fileName);
+
+    Task EnsureStorageExists();
 }

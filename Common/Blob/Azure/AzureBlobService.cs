@@ -12,9 +12,10 @@ public class AzureBlobService(BlobServiceClient blobServiceClient, IOptions<Azur
 {
     private readonly BlobContainerClient _blobContainerClient = blobServiceClient.GetBlobContainerClient(options.Value.ContainerName);
 
-    public void EnsureStorageExists()
+    public Task EnsureStorageExists()
     {
         _blobContainerClient.CreateIfNotExists();
+        return Task.CompletedTask;
     }
 
     public Task UploadFileAsync(Stream fileStream, string fileName, string contentType)
