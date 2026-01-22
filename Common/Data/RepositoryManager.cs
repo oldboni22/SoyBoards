@@ -1,5 +1,5 @@
-
-
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Common.Data;
@@ -11,8 +11,10 @@ public interface IRepositoryManager
 
 public abstract class RepositoryManager(DbContext context) : IRepositoryManager
 {
+    protected DbContext Context { get; } = context;
+    
     public Task SaveAsync(CancellationToken cancellationToken = default)
     {
-        return context.SaveChangesAsync(cancellationToken);
+        return Context.SaveChangesAsync(cancellationToken);
     }
 }

@@ -27,9 +27,11 @@ public interface IRepository<T> where T : EntityBase
 
 public class Repository<T>(DbContext context) : IRepository<T> where T : EntityBase
 {
+    protected DbContext Context { get; } = context;
+    
     public async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        var createdEntity = await context.Set<T>().AddAsync(entity, cancellationToken);
+        var createdEntity = await Context.Set<T>().AddAsync(entity, cancellationToken);
 
         return createdEntity.Entity;
     }
@@ -37,8 +39,8 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : EntityB
     public Task<T?> GetByIdAsync(Guid id, bool trackChanges = false, CancellationToken cancellationToken = default)
     {
         return trackChanges
-            ? context.Set<T>().FirstOrDefaultAsync(cancellationToken)
-            : context.Set<T>().AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+            ? Context.Set<T>().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken)
+            : Context.Set<T>().AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
     public async Task<PagedList<T>> GetByConditionAsync(
@@ -47,7 +49,7 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : EntityB
         bool trackChanges = false,
         CancellationToken cancellationToken = default)
     {
-        var query = context
+        var query = Context
             .Set<T>()
             .Where(expression);
         
@@ -57,10 +59,9 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : EntityB
             .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
             .Take(paginationParameters.PageSize);
 
-        if (trackChanges)
-        {
-            query = query.AsNoTracking();
-        }
+        query = trackChanges 
+            ? query
+            : query.AsNoTracking();
         
         var list = await query.ToListAsync(cancellationToken);
         
@@ -77,8 +78,7 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : EntityB
         }
         
         updatedEntity.Id = id;
-
-        entity = updatedEntity;
+        Context.Entry(entity).CurrentValues.SetValues(updatedEntity);
 
         return entity;
     }
@@ -92,7 +92,7 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : EntityB
             return false;
         }
         
-        context.Set<T>().Remove(entity);
+        Context.Set<T>().Remove(entity);
         return true;
     }
 } 
