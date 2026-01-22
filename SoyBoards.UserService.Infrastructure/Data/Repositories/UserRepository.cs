@@ -9,6 +9,6 @@ public class UserRepository(UserServiceDbContext context) : Repository<User>(con
 {
     public Task<bool> TagExistsAsync(string tag)
     {
-        return context.Users.AnyAsync(u => EF.Functions.ILike(u.Tag, tag));
+        return context.Users.AnyAsync(u => u.Tag == tag);
     }
 }
