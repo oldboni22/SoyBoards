@@ -48,7 +48,9 @@ public class AzureBlobService(BlobServiceClient blobServiceClient, IOptions<Azur
             return null;
         }  
         
-        var sasUri = client.GenerateSasUri(BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddMinutes(5));
+        var sasUri = client.GenerateSasUri(
+            BlobSasPermissions.Read, DateTimeOffset.UtcNow.AddMinutes(AzureBlobConstants.MinutesToLoadFile));
+        
         return sasUri.AbsoluteUri;
     }
 
