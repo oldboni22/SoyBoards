@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SoyBoards.UserService.Domain.Contracts;
 using SoyBoards.UserService.Infrastructure.Constants;
 using SoyBoards.UserService.Infrastructure.Data;
 
@@ -28,6 +29,12 @@ public static class DiExtensions
             {
                 builder.UseNpgsql(connectionString);
             });
+        }
+
+        private IServiceCollection AddRepositories()
+        {
+            return services
+                .AddScoped<IUserServiceRepositoryManager, UserServiceRepositoryManager>();
         }
     }
 }
