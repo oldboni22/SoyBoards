@@ -59,10 +59,9 @@ public class Repository<T>(DbContext context) : IRepository<T> where T : EntityB
             .Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
             .Take(paginationParameters.PageSize);
 
-        if (!trackChanges)
-        {
-            query = query.AsNoTracking();
-        }
+        query = trackChanges 
+            ? query
+            : query.AsNoTracking();
         
         var list = await query.ToListAsync(cancellationToken);
         
