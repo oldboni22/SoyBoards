@@ -18,10 +18,15 @@ public class AzureBlobService(BlobServiceClient blobServiceClient, IOptions<Azur
         return Task.CompletedTask;
     }
 
-    public Task UploadFileAsync(Stream fileStream, string fileName, string contentType)
+    public async Task<bool> UploadFileAsync(Stream fileStream, string fileName, string contentType)
     {
         var client = _blobContainerClient.GetBlobClient(fileName);
 
+        if (await client.ExistsAsync())
+        {
+            return false;
+        }
+        
         var uploadOptions = new BlobUploadOptions
         {
             HttpHeaders = new BlobHttpHeaders
@@ -30,7 +35,8 @@ public class AzureBlobService(BlobServiceClient blobServiceClient, IOptions<Azur
             }
         };
         
-        return client.UploadAsync(fileStream, uploadOptions);
+        await client.UploadAsync(fileStream, uploadOptions);
+        return true;
     }
 
     public async Task<string?> GetFileLinkAsync(string fileName)
