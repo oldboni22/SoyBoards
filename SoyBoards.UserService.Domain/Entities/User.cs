@@ -1,10 +1,6 @@
-#region
-
 using System.ComponentModel.DataAnnotations;
 using Common.Data;
 using SoyBoards.UserService.Domain.Constants;
-
-#endregion
 
 namespace SoyBoards.UserService.Domain.Entities;
 

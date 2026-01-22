@@ -1,8 +1,6 @@
-#region
+
 
 using Microsoft.EntityFrameworkCore;
-
-#endregion
 
 namespace Common.Data;
 

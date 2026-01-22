@@ -1,10 +1,6 @@
-#region
-
 using Common.Data;
 using Microsoft.EntityFrameworkCore;
 using SoyBoards.UserService.Domain.Entities;
-
-#endregion
 
 namespace SoyBoards.UserService.Infrastructure.Data;
 

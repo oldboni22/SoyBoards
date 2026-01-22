@@ -1,8 +1,6 @@
-#region
+
 
 using SoyBoards.UserService.Infrastructure;
-
-#endregion
 
 namespace SoyBoards.UserService.Api;
 
