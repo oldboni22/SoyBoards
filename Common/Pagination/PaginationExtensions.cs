@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Common.Pagination;
 
 public static class PaginationExtensions
